@@ -101,7 +101,8 @@ def detect(save_img=False):
 
             save_path = str(Path(out) / Path(p).name)
             txt_path = str(Path(out) / Path(p).stem) + ('_%g' % dataset.frame if dataset.mode == 'video' else '')
-            s += '%gx%g ' % img.shape[2:]  # print string
+            #s += '%gx%g ' % img.shape[2:] 
+            #s += '%gx%g ' % img.shape[2:] # print string
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
             if det is not None and len(det):
                 # Rescale boxes from img_size to im0 size
@@ -110,8 +111,8 @@ def detect(save_img=False):
                 # Print results
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
-                    s += '%g %ss, ' % (n, names[int(c)])  # add to string
-                    
+                    #s += '%g %ss, ' % (n, names[int(c)])  # add to string
+                    s += '%g %ss, ' % (n, names[int(c)])
 
                 # Write results
                 for *xyxy, conf, cls in det:
