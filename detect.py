@@ -4,12 +4,12 @@ import platform
 import shutil
 import time
 from pathlib import Path
-
+import save_firebase as save_firebase
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
-
+from datetime import datetime
 from utils.google_utils import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import (
@@ -134,6 +134,10 @@ def detect(save_img=False):
 
             # Save results (image with detections)
             if save_img:
+                now = datetime.now()
+                # dd/mm/YY H:M:S
+                dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+                save_firebase.save1(dt_string, im0,dt_string ,label)
                 if dataset.mode == 'images':
                     cv2.imwrite(save_path, im0)
                 else:
