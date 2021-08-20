@@ -4,12 +4,12 @@ import platform
 import shutil
 import time
 from pathlib import Path
-import save_firebase as save_firebase
+from datetime import datetime
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
-from datetime import datetime
+import save_firebase as save_firebase
 from utils.google_utils import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import (
@@ -38,7 +38,7 @@ def detect(save_img=False):
         shutil.rmtree(out)  # delete output folder
     os.makedirs(out)  # make new output folder
     half = device.type != 'cpu'  # half precision only supported on CUDA
-
+   
     # Load model
     model = Darknet(cfg, imgsz).cuda()
     model.load_state_dict(torch.load(weights[0], map_location=device)['model'])
@@ -111,6 +111,7 @@ def detect(save_img=False):
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += '%g %ss, ' % (n, names[int(c)])  # add to string
+                    
 
                 # Write results
                 for *xyxy, conf, cls in det:
@@ -125,7 +126,16 @@ def detect(save_img=False):
 
             # Print time (inference + NMS)
             print('%sDone. (%.3fs)' % (s, t2 - t1))
-
+            #print(pred)
+            for det in pred:
+              if len(det):
+               now = datetime.now()
+           # dd/mm/YY H:M:S
+               cv2.imwrite("c.jpg", im0)
+            #dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+               dt_string2 = now.strftime("%d.%m.%Y%H:%M:%S")
+            #print(s)
+               save_firebase.save1(dt_string2,s)
             # Stream results
             if view_img:
                 cv2.imshow(p, im0)
@@ -134,10 +144,6 @@ def detect(save_img=False):
 
             # Save results (image with detections)
             if save_img:
-                now = datetime.now()
-                # dd/mm/YY H:M:S
-                dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-                save_firebase.save1(dt_string, im0,dt_string ,label)
                 if dataset.mode == 'images':
                     cv2.imwrite(save_path, im0)
                 else:

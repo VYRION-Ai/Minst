@@ -9,7 +9,7 @@ import argparse
 from google.colab import drive
 import matplotlib.pyplot as plt
 import cv2
-
+x=2
 # telegram
 # Replace with your token
 token = '1944147483:AAFz_reVI6EtLhK8bRoHfHjjf29JqtRxQY0'  # telegram token
@@ -28,7 +28,7 @@ firebase_admin.initialize_app(cred, {
 })
 
 ref = db.reference('')
-users_ref = ref.child('Images')
+users_ref = ref.child("New").child('Images')
 
 config = {
     "apiKey": "ae04102012555bfcae7ebdae8b6c9ea38ae2eb3f",
@@ -38,24 +38,20 @@ config = {
     "storageBucket": "becarful-canada.appspot.com",
     "messagingSenderId": "104645753169902597075"
 }
-
+x+=1
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
 
-def save1(date_,imgg,url, number):
-    args = parser.parse_args()
-    #my_image = args.source
-    storage.child("Images").child(url).put(imgg)
+def save1(date_, number):
+    global x
+    global storage
+    global users_ref
+    #print(imgg)
+        #my_image = args.source
+    storage.child("Images").child(date_).put("c.jpg")
     #time.sleep(1)
     users_ref.push().set({
         'number': number,
-        'url': url,
+        'url': date_,
         'date': date_,
     })
-
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--source', type=str, default='inference/images', help='source')  # file/folder, 0 for webcam
-parser.add_argument('--names', type=str, default='data/coco.names', help='*.cfg path')
-opt = parser.parse_args()
-print(opt)
