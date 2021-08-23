@@ -42,7 +42,7 @@ x+=1
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
 
-def save1(date_, number):
+def save1(date_,url, number):
     global x
     global storage
     global users_ref
@@ -52,6 +52,6 @@ def save1(date_, number):
     #time.sleep(1)
     users_ref.push().set({
         'number': number,
-        'url': date_,
+        'url': url,
         'date': date_,
     })
