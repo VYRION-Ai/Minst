@@ -133,7 +133,7 @@ def detect(save_img=False):
                now = datetime.now()
            # dd/mm/YY H:M:S
                cv2.imwrite("c.jpg", im0)
-               dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+               dt_string = now.strftime("%d.%m.%Y %H:%M:%S")
                dt_string2 = now.strftime("%d.%m.%Y%H:%M:%S")
             #print(s)
                save_firebase.save1(dt_string,dt_string2,s)
