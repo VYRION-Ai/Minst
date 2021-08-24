@@ -52,6 +52,6 @@ def save1(date_,url, number):
     #time.sleep(1)
     users_ref.push().set({
         'number': number,
-        'url': url,
+        'url': date_,
         'date': date_,
     })
